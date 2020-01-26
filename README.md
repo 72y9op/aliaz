@@ -1,2 +1,2 @@
 # aliaz
-A command creator for linux 
+Un créateur de commande utilisable depuis le terminal
