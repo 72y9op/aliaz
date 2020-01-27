@@ -24,6 +24,7 @@ Pour la suite, vous pouvez ajouter un raccourci clavier pour pouvoir créer une 
 <pre style=" border: 1px solid black; padding:10px">
 mkalias
 </pre>
+![capture]https://hebergeur-images.com/fr/vi/6d1a497e0e2eb9fda5f55e8ca4df3088
 
 # Donations : aliaz & autre projets
 Si vous aimez ce projet, vous pouvez contribuer par un petit don
