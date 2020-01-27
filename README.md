@@ -11,9 +11,14 @@ Zenity et Yad (qui est un ajout de fonctionnalité de zenity).
 
 # Installation
 <pre style=" border: 1px solid black; padding:10px">
-git clone https://github.com/72y9op/aliaz && cd ~/aliaz/ && mv mkalias /usr/local/bin/ && rmdir ~/aliaz/
+git clone https://github.com/72y9op/aliaz 
+cd ~/aliaz/ 
+mv mkalias /usr/local/bin/ 
+chmod +x /usr/local/bin/mkalias
+rmdir ~/aliaz/
 </pre>
 Pour la suite, vous pouvez ajouter un raccourci clavier pour pouvoir créer une commande rapidement, ou laisser la commande utilisable que depuis le terminal
+(Conseil : Je vous conseil le raccourcis CTRL + ²)
 
 # Lancement
 <pre style=" border: 1px solid black; padding:10px">
