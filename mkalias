@@ -1,0 +1,103 @@
+#!/bin/bash
+
+# NAME  : Aliaz
+# VERS. : 1.0.0
+# Script by [ 72y9op ] and UnleaShell army
+
+dir="$HOME"
+temp="/tmp/aliases.mkalias"
+sudo chmod +x $temp
+
+## INSTALATION
+
+# Installe le paquet YAD si tu le l'a pas.
+command -v yad >/dev/null 2>&1 || { echo >&2 "yad package required but it is not installed.  Aborting."; exit 99; }
+
+# Installe le paquet ZENITY si tu le l'a pas.
+command -v zenity >/dev/null 2>&1 || { echo >&2 "yad package required but it is not installed.  Aborting."; exit 99; }
+
+cleanup() {
+   rm -f “$temp”
+}
+
+# Création du fichier bash_aliases si celui-ci n'existe pas :
+
+if [ ! -f "$dir/.bash_aliases" ];then
+
+	echo "
+	# Alias definitions.
+	# You may want to put all your additions into a separate file like
+	# ~/.bash_aliases, instead of adding them here directly.
+	# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+	if [ -f ~/.bash_aliases ]; then
+	    . ~/.bash_aliases
+	fi" >> $dir/.bashrc
+	
+	touch $dir/.bash_aliases
+
+	echo alias rest="'""cd $HOME && clear""'" >> $dir/.bash_aliases
+        chmod +x $dir/.bashrc && . $dir/.bashrc
+
+fi
+
+## SCRIPT
+
+awk '/alias/' $dir/.bash_aliases | awk -F '§' '{{gsub("alias ","")} {gsub(/[\47]/,"")} {gsub("=","\n")} print $0}' > $temp
+
+function func_list () 
+{ 	
+	m_list=$(yad --title="Commandes existantes" --borders=10 --listen --no-markup --width=500 --height=500 --no-escape --center --window-icon=gtk-preferences --fixed --separator="§" --list --column=Commande:text --column=Exécuté:text --button=Retour!go-jump:1 < /tmp/aliases.mkalias)
+	
+	[[ $ret_list -eq 1 ]] && exit 0
+}
+	   
+export -f func_list 
+
+com=$(yad --title="Créer une commande" \
+	  --form \
+	  --no-escape \
+	  --center \
+	  --window-icon=gtk-preferences \
+	  --borders=10 \
+	  --fixed  \
+	  --text="Indiquez les informations" --text-align=center \
+	  --field=:LBL "" \
+          --field="Commande a taper dans le terminal :" \
+          --field="Commande éxécuté :" \
+          --field="Effacer le terminal avant le programe:CHK" "" "" FALSE \
+	  --button='Liste!format-justify-fill:bash -c func_list'  \
+	  --button=gtk-quit:1 \
+	  --button=gtk-ok:0)
+
+ret_com=$?
+[[ $ret_com -eq 1 ]] && exit 0
+
+name=$(echo $com | awk 'BEGIN {FS="|" } { print $2 }')
+command=$(echo $com | awk 'BEGIN {FS="|" } { print $3 }')
+clear=$(echo $com | awk 'BEGIN {FS="|" } { print $4 }')
+
+if [[ $ret_com -eq 0 ]]; then
+
+	if [ ${#name} = '0' ] && [ ${#command} = '0' ]
+	then
+
+		exit 0
+		
+	else
+	
+		if  [ $clear = 'TRUE' ] 
+		then
+			echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
+			
+		else
+			echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
+			
+		fi	
+		
+		source $dir/.bash_aliases
+		
+		notify-send "mkalias" "Commande $name créer !"
+	fi
+
+fi
