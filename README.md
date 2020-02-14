@@ -4,6 +4,7 @@ Allows you to facilitate order creation under linux
 
 # Languages available :
 ~~French (fr-FR)~~
+
 English (en_EN)
 
 # Informations
