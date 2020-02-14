@@ -1,26 +1,30 @@
 #!/bin/bash
 
 # NAME  : Aliaz
-# VERS. : 1.0.0
-# Script by [ 72y9op ] and UnleaShell army
+# VERS. : 2.0.0
+# By    : 72y9op
 
+rm /tmp/aliases.mkalias
+
+vers="2.0.0"
 dir="$HOME"
+dir_lang="/usr/lib"
 temp="/tmp/aliases.mkalias"
+
+if [ -f $temp ]
+then
+	rm $temp
+fi
+
+touch $temp
 sudo chmod +x $temp
+
+cp $PWD/aliaz_lang $dir_lang
+mv $dir_lang/aliaz_lang $dir_lang/lib_aliazLang
 
 ## INSTALATION
 
-# Installe le paquet YAD si tu le l'a pas.
-command -v yad >/dev/null 2>&1 || { echo >&2 "yad package required but it is not installed.  Aborting."; exit 99; }
 
-# Installe le paquet ZENITY si tu le l'a pas.
-command -v zenity >/dev/null 2>&1 || { echo >&2 "yad package required but it is not installed.  Aborting."; exit 99; }
-
-cleanup() {
-   rm -f “$temp”
-}
-
-# Création du fichier bash_aliases si celui-ci n'existe pas :
 
 if [ ! -f "$dir/.bash_aliases" ];then
 
@@ -41,63 +45,111 @@ if [ ! -f "$dir/.bash_aliases" ];then
 
 fi
 
-## SCRIPT
+## SET
 
-awk '/alias/' $dir/.bash_aliases | awk -F '§' '{{gsub("alias ","")} {gsub(/[\47]/,"")} {gsub("=","\n")} print $0}' > $temp
+if [ -t 1 ] ; then 
 
-function func_list () 
-{ 	
-	m_list=$(yad --title="Commandes existantes" --borders=10 --listen --no-markup --width=500 --height=500 --no-escape --center --window-icon=gtk-preferences --fixed --separator="§" --list --column=Commande:text --column=Exécuté:text --button=Retour!go-jump:1 < /tmp/aliases.mkalias)
-	
-	[[ $ret_list -eq 1 ]] && exit 0
-}
-	   
-export -f func_list 
-
-com=$(yad --title="Créer une commande" \
-	  --form \
-	  --no-escape \
-	  --center \
-	  --window-icon=gtk-preferences \
-	  --borders=10 \
-	  --fixed  \
-	  --text="Indiquez les informations" --text-align=center \
-	  --field=:LBL "" \
-          --field="Commande a taper dans le terminal :" \
-          --field="Commande éxécuté :" \
-          --field="Effacer le terminal avant le programe:CHK" "" "" FALSE \
-	  --button='Liste!format-justify-fill:bash -c func_list'  \
-	  --button=gtk-quit:1 \
-	  --button=gtk-ok:0)
-
-ret_com=$?
-[[ $ret_com -eq 1 ]] && exit 0
-
-name=$(echo $com | awk 'BEGIN {FS="|" } { print $2 }')
-command=$(echo $com | awk 'BEGIN {FS="|" } { print $3 }')
-clear=$(echo $com | awk 'BEGIN {FS="|" } { print $4 }')
-
-if [[ $ret_com -eq 0 ]]; then
-
-	if [ ${#name} = '0' ] && [ ${#command} = '0' ]
-	then
-
-		exit 0
-		
-	else
-	
-		if  [ $clear = 'TRUE' ] 
-		then
-			echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
-			
-		else
-			echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
-			
-		fi	
-		
-		source $dir/.bash_aliases
-		
-		notify-send "mkalias" "Commande $name créer !"
+	if ! which zenity > /dev/null; then
+	   echo -e "Command zenity not found! Install? (y/n) \c"
+	   read MTP
+	   if [ "$MTP" = "y" ]; then
+	      sudo apt-get install zenity >/dev/null
+	      echo "zenity installation successful !"
+	   fi
 	fi
 
+	if ! which yad > /dev/null; then
+	   echo -e "Command yad not found! Install? (y/n) \c"
+	   read MTP
+	   if [ "$MTP" = "y" ]; then
+	      sudo apt-get install yad >/dev/null
+	      echo "yad installation successful !"
+	   fi
+	fi
+	clear
+
+	echo -e "### Aliaz "$vers" CLI vers. ### Lang English ### by 72y9op ### \n"
+	echo -e "Command to type in the terminal : \c"
+	read 'name'
+	echo -e "Commande executed : \c"
+	read 'command'
+	echo -e "Clear terminal before program ? (y/n) \c"
+	read 'clear'
+
+	if [ ${#name} = '0' ] && [ ${#command} = '0' ]
+		then
+			exit 0
+	else
+			if  [ $clear = "y" ]; then
+				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
+			elif [ $clear = "n" ]; then
+				echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
+			fi	
+			source $dir/.bash_aliases
+			notify-send "mkalias" "Command $name created !"
+	fi
+	
+else
+	
+	if ! which zenity > /dev/null; then
+	      sudo apt-get install zenity >/dev/null
+	fi
+
+	if ! which yad > /dev/null; then
+	      sudo apt-get install yad >/dev/null
+	fi
+
+	awk '/alias/' $dir/.bash_aliases | awk -F '§' '{{gsub("alias ","")} {gsub(/[\47]/,"")} {gsub("=","\n")} print $0}' > $temp
+
+	function func_list () 
+	{ 	
+		m_list=$(yad --title="Existing orders" --borders=10 --listen --no-markup --width=500 --height=500 --no-escape --center --window-icon=gtk-preferences --fixed --separator="§" --list --column=Command:text --column=Executed:text --button=Back!go-jump:1 < /tmp/aliases.mkalias)
+		
+		return $ret_list;
+	}
+		   
+	export -f func_list 
+	ret_list=$?
+
+	com=$(yad --title="Create command" \
+		  --form \
+		  --no-escape \
+		  --center \
+		  --window-icon=gtk-preferences \
+		  --borders=10 \
+		  --fixed  \
+		  --text="Indicate the information:" --text-align=center \
+		  --field=:LBL "" \
+		  --field="Command to type in the terminal :" \
+		  --field="Commande executed :" \
+		  --field="Clear terminal before program:CHK" "" "" FALSE \
+		  --button='List!format-justify-fill:bash -c func_list && echo $func_list'  \
+		  --button=Quit!gtk-quit:1 \
+		  --button=Ok!gtk-ok:0)
+
+	ret_com=$?
+	[[ $ret_com -eq 1 ]] && exit 0
+
+	name=$(echo $com | awk 'BEGIN {FS="|" } { print $2 }')
+	command=$(echo $com | awk 'BEGIN {FS="|" } { print $3 }')
+	clear=$(echo $com | awk 'BEGIN {FS="|" } { print $4 }')
+
+	if [[ $ret_com -eq 0 ]]; then
+		if [ ${#name} = '0' ] && [ ${#command} = '0' ]
+		then
+			exit 0
+		else
+			if  [ $clear = 'TRUE' ] 
+			then
+				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
+			else
+				echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
+			fi	
+			source $dir/.bash_aliases
+			notify-send "mkalias" "Command $name created !"
+		fi
+	fi
 fi
+
+## SCRIPT
+
