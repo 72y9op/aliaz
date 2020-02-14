@@ -1,13 +1,14 @@
-# aliaz
-Un créateur de commande utilisable depuis le terminal
-Permet de faciliter la création de commande sous linux
+# aliaz ( 2.0.0 )
+An order creator usable from the terminal
+Allows you to facilitate order creation under linux
 
 # Languages available :
-French (fr-FR)
+~~French (fr-FR)~~
+English (en_EN)
 
 # Informations
-Le programme vas installer :
-Zenity et Yad (qui est un ajout de fonctionnalité de zenity).
+The program will install:
+Zenity and Yad (which is an addition of zenity functionality).
 
 # Installation
 <pre style=" border: 1px solid black; padding:10px">
@@ -17,8 +18,8 @@ mv mkalias /usr/local/bin/
 chmod +x /usr/local/bin/mkalias
 rmdir ~/aliaz/
 </pre>
-Pour la suite, vous pouvez ajouter un raccourci clavier pour pouvoir créer une commande rapidement, ou laisser la commande utilisable que depuis le terminal
-(Conseil : Je vous conseil le raccourcis CTRL + ²)
+For the rest, you can add a keyboard shortcut to be able to create an order quickly, or leave the command usable only from the terminal
+(Advice: I advise you the shortcut CTRL + ²)
 
 # Lancement
 <pre style=" border: 1px solid black; padding:10px">
@@ -26,9 +27,9 @@ mkalias
 </pre>
 
 # Donations : aliaz & autre projets
-Si vous aimez ce projet, vous pouvez contribuer par un petit don
+If you like this project, you can contribute with a small donation
 
-Nous mettons à votre disposition cette adresse bitcoin.
+We provide you with this bitcoin address.
 BITCOIN : 13hzc3DrSsw2eoE48zx719SCgS91dNWeeu
 
-72y9op and UnleaShell Army
+72y9op
