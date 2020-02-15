@@ -19,9 +19,6 @@ fi
 touch $temp
 sudo chmod +x $temp
 
-cp $PWD/aliaz_lang $dir_lang
-mv $dir_lang/aliaz_lang $dir_lang/lib_aliazLang
-
 ## INSTALATION
 
 
