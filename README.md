@@ -1,4 +1,4 @@
-# aliaz ( 2.0.0 )
+# aliaz
 An order creator usable from the terminal
 Allows you to facilitate order creation under linux
 
@@ -22,12 +22,12 @@ rmdir ~/aliaz/
 For the rest, you can add a keyboard shortcut to be able to create an order quickly, or leave the command usable only from the terminal
 (Advice: I advise you the shortcut CTRL + ²)
 
-# Lancement
+# Run
 <pre style=" border: 1px solid black; padding:10px">
 mkalias
 </pre>
 
-# Donations : aliaz & autre projets
+# Donations : aliaz & other projects
 If you like this project, you can contribute with a small donation
 
 We provide you with this bitcoin address.
