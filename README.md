@@ -1,7 +1,7 @@
 # aliaz
 ![version](https://img.shields.io/badge/Version-2.0.1-blueviolet?style=flat-square)
 ![alpha](https://img.shields.io/badge/Alpha-yes-red?style=flat-square)
-![language](https://img.shields.io/badge/Language-Bash-blue?style=flat-square)
+![language](https://img.shields.io/badge/Language-Shell-blue?style=flat-square)
 
 With alias, you can, with a simple command, create as many commands as you want, this one can shorten your life. Super useful on Linux, it will make your life easier
 
