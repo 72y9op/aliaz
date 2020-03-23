@@ -1,7 +1,7 @@
 # aliaz
-![version](https://img.shields.io/badge/Version-2.0.1-blueviolet?style=flat-square)
+![version](https://img.shields.io/badge/Version-2.1.0-blueviolet?style=flat-square)
 ![alpha](https://img.shields.io/badge/Alpha-yes-red?style=flat-square)
-![language](https://img.shields.io/badge/Language-Shell-blue?style=flat-square)
+![language](https://img.shields.io/badge/Language-Bash-blue?style=flat-square)
 
 With alias, you can, with a simple command, create as many commands as you want, this one can shorten your life. Super useful on Linux, it will make your life easier
 
@@ -11,9 +11,23 @@ With alias, you can, with a simple command, create as many commands as you want,
  
 
 ## Languages available :
-~~French (fr-FR)~~
 
-English (en_EN)
+<pre style=" border: 1px solid black; padding:10px">
+French (fr_FR) (traduction by 72y9op)
+
+English (en_EN) (traduction by 72y9op)
+
+Spanish (es_ES) (traduction by Shady H, thank you !)
+
+German (de_DE) (traduction by xic3fox, thank you !)
+</pre>
+
+If you too want to add your language, I suggest you fill out this google doc: 
+
+https://docs.google.com/forms/d/17yPLbwIx-Z0zsVFtBU4gNJr7zS_Eu_P3WBgWmwURtkI/prefill
+
+thank you for your participation !
+
 
 ## Informations :
 The program will install:
@@ -23,16 +37,15 @@ Zenity and Yad (which is an addition of zenity functionality).
 <pre style=" border: 1px solid black; padding:10px">
 git clone https://github.com/72y9op/aliaz 
 cd ~/aliaz/ 
-mv mkalias /usr/local/bin/ 
-chmod +x /usr/local/bin/mkalias
-rmdir ~/aliaz/
+chmod +x ./install.sh
+./install.sh
 </pre>
 For the rest, you can add a keyboard shortcut to be able to create an order quickly, or leave the command usable only from the terminal
 (Advice: I advise you the shortcut CTRL + ²)
 
 ## Run :
 <pre style=" border: 1px solid black; padding:10px">
-mkalias
+mkalias -i= [ GUI or CLI ]
 </pre>
 
 # Donations : aliaz & other projects 
@@ -43,5 +56,8 @@ BITCOIN : 13hzc3DrSsw2eoE48zx719SCgS91dNWeeu
 
 <a href="https://www.buymeacoffee.com/72y9op" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
+<a class="twitter-follow-button"
+  href="https://twitter.com/72y9op">
+Follow @72y9op on twitter</a>
 ------
 ###### 72y9op 2020
