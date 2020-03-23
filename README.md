@@ -62,4 +62,4 @@ BITCOIN : 13hzc3DrSsw2eoE48zx719SCgS91dNWeeu
 <a href="https://www.buymeacoffee.com/72y9op" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 ------
-###### 72y9op 2020 | ![twitter](https://img.shields.io/badge/Follow%20me-%4072y9op-blue?style=social&logo=twitter)
+###### 72y9op 2020 | <a href="http://twitter.com/72y9op" target="_blank"><img src="https://img.shields.io/badge/Follow%20me-%4072y9op-blue?style=social&logo=twitter"></a>
