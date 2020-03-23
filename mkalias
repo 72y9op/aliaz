@@ -1,152 +1,36 @@
 #!/bin/bash
 
-# NAME  : Aliaz
-# VERS. : 2.0.0
-# By    : 72y9op
+error(){ 
+    echo "ERREUR : parametres invalides !" >&2 
+    echo "utilisez l'option -h pour en savoir plus" >&2 
+    exit 1 
+} 
 
-rm /tmp/aliases.mkalias
-
-vers="2.0.0"
-dir="$HOME"
-dir_lang="/usr/lib"
-temp="/tmp/aliases.mkalias"
-
-if [ -f $temp ]
-then
-	rm $temp
-fi
-
-touch $temp
-sudo chmod +x $temp
-
-## INSTALATION
+usage(){ 
+    echo "Usage: mkalias [options]" 
+    echo "	-h :			Show this help" 
+    echo "	-i=<GUI|CLI> :		Open with <GUI|CLI> interface" 
+} 
 
 
-
-if [ ! -f "$dir/.bash_aliases" ];then
-
-	echo "
-	# Alias definitions.
-	# You may want to put all your additions into a separate file like
-	# ~/.bash_aliases, instead of adding them here directly.
-	# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-	if [ -f ~/.bash_aliases ]; then
-	    . ~/.bash_aliases
-	fi" >> $dir/.bashrc
-	
-	touch $dir/.bash_aliases
-
-	echo alias rest="'""cd $HOME && clear""'" >> $dir/.bash_aliases
-        chmod +x $dir/.bashrc && . $dir/.bashrc
-
-fi
-
-## SET
-
-if [ -t 1 ] ; then 
-
-	if ! which zenity > /dev/null; then
-	   echo -e "Command zenity not found! Install? (y/n) \c"
-	   read MTP
-	   if [ "$MTP" = "y" ]; then
-	      sudo apt-get install zenity >/dev/null
-	      echo "zenity installation successful !"
-	   fi
-	fi
-
-	if ! which yad > /dev/null; then
-	   echo -e "Command yad not found! Install? (y/n) \c"
-	   read MTP
-	   if [ "$MTP" = "y" ]; then
-	      sudo apt-get install yad >/dev/null
-	      echo "yad installation successful !"
-	   fi
-	fi
-	clear
-
-	echo -e "### Aliaz "$vers" CLI vers. ### Lang English ### by 72y9op ### \n"
-	echo -e "Command to type in the terminal : \c"
-	read 'name'
-	echo -e "Commande executed : \c"
-	read 'command'
-	echo -e "Clear terminal before program ? (y/n) \c"
-	read 'clear'
-
-	if [ ${#name} = '0' ] && [ ${#command} = '0' ]
-		then
-			exit 0
+traitement(){ 
+	if [[ "$1" = "=CLI" ]]; then
+		sudo bash $HOME/aliaz/aliaz.sh -iCLI
+	elif [ "$1" = "=GUI" ]; then
+		sudo bash $HOME/aliaz/aliaz.sh -iGUI
 	else
-			if  [ $clear = "y" ]; then
-				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
-			elif [ $clear = "n" ]; then
-				echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
-			fi	
-			source $dir/.bash_aliases
-			notify-send "mkalias" "Command $name created !"
-	fi
+		error
+	fi 
 	
-else
-	
-	if ! which zenity > /dev/null; then
-	      sudo apt-get install zenity >/dev/null
-	fi
+} 
 
-	if ! which yad > /dev/null; then
-	      sudo apt-get install yad >/dev/null
-	fi
+[[ $# -lt 1 ]] && error 
 
-	awk '/alias/' $dir/.bash_aliases | awk -F '§' '{{gsub("alias ","")} {gsub(/[\47]/,"")} {gsub("=","\n")} print $0}' > $temp
-
-	function func_list () 
-	{ 	
-		m_list=$(yad --title="Existing orders" --borders=10 --listen --no-markup --width=500 --height=500 --no-escape --center --window-icon=gtk-preferences --fixed --separator="§" --list --column=Command:text --column=Executed:text --button=Back!go-jump:1 < /tmp/aliases.mkalias)
-		
-		return $ret_list;
-	}
-		   
-	export -f func_list 
-	ret_list=$?
-
-	com=$(yad --title="Create command" \
-		  --form \
-		  --no-escape \
-		  --center \
-		  --window-icon=gtk-preferences \
-		  --borders=10 \
-		  --fixed  \
-		  --text="Indicate the information:" --text-align=center \
-		  --field=:LBL "" \
-		  --field="Command to type in the terminal :" \
-		  --field="Commande executed :" \
-		  --field="Clear terminal before program:CHK" "" "" FALSE \
-		  --button='List!format-justify-fill:bash -c func_list && echo $func_list'  \
-		  --button=Quit!gtk-quit:1 \
-		  --button=Ok!gtk-ok:0)
-
-	ret_com=$?
-	[[ $ret_com -eq 1 ]] && exit 0
-
-	name=$(echo $com | awk 'BEGIN {FS="|" } { print $2 }')
-	command=$(echo $com | awk 'BEGIN {FS="|" } { print $3 }')
-	clear=$(echo $com | awk 'BEGIN {FS="|" } { print $4 }')
-
-	if [[ $ret_com -eq 0 ]]; then
-		if [ ${#name} = '0' ] && [ ${#command} = '0' ]
-		then
-			exit 0
-		else
-			if  [ $clear = 'TRUE' ] 
-			then
-				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
-			else
-				echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
-			fi	
-			source $dir/.bash_aliases
-			notify-send "mkalias" "Command $name created !"
-		fi
-	fi
-fi
-
-## SCRIPT
-
+while getopts ":i:h" option; do 
+    case "$option" in 
+        i) traitement "$OPTARG";; 
+        :) error ;; # il manque une valeur ($option = 'b' ici) 
+        h) usage ;; 
+        *) error ;; 
+    esac 
+done
