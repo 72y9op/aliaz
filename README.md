@@ -1,5 +1,5 @@
 <p align="center"> 
-<img src="https://github.com/72y9op/aliaz/blob/master/preview/aliaz_v2.1.0.png">
+<img src="https://github.com/72y9op/aliaz/blob/master/preview/aliaz.png">
 </p>
 <p align="center"> 
 <img src="https://img.shields.io/badge/Version-2.1.0-blueviolet?style=flat-square">
