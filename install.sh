@@ -49,8 +49,6 @@ if [ -z "$restPres" ]; then
 	echo "alias rest='cd $HOME && clear'" >> $HOME/.bash_aliases
 fi
 
-mkdir $PWD/backup
-
 echo "Installation successful !"
 }
 

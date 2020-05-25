@@ -2,7 +2,7 @@
 <img src="https://github.com/72y9op/aliaz/blob/master/preview/aliaz_210.png">
 </p>
 <p align="center"> 
-<img src="https://img.shields.io/badge/Version-2.1.0-blueviolet?style=flat-square">
+<img src="https://img.shields.io/badge/Version-2.1.1-blueviolet?style=flat-square">
 <img src="https://img.shields.io/badge/Alpha-yes-red?style=flat-square">
 <img src="https://img.shields.io/badge/Language-Bash-blue?style=flat-square">
 <img src="https://img.shields.io/badge/OS-Linux-orange?style=flat-square">
@@ -52,7 +52,9 @@ For the rest, you can add a keyboard shortcut to be able to create an order quic
 
 ## Run :
 ```
-mkalias -i= [ GUI or CLI ]
+mkalias --gui : Open with GUI interface 
+mkalias --cli : Open with CLI interface
+} 
 ```
 
 # Donations : aliaz & other projects 

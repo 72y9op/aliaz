@@ -22,10 +22,8 @@ function lang () {
 
 	if [ -z "$varLang" ]; then
 		varLang=$(grep $defLang /usr/lib/lib_aliazLang | awk -F '=' '{print $2}' | awk -F '§' '{print $'$1'}' )
-		actLang=$defLang
 		echo "$varLang"
 	else	
-		actLang=$r_lang
 		echo "$varLang"
 	fi
 }
@@ -43,15 +41,20 @@ function lng() {
 }
 export -f lang
 
-while getopts ":i:" option; do 
-    case "$option" in 
-        i) interf=$OPTARG;; 
-        :) error ;; # il manque une valeur ($option = 'b' ici) 
+optspec=":-:"
+while getopts "$optspec" optchar; do
+	case "${OPTARG}" in
+		   gui)
+			  interf="gui"
+			  ;;
+		   cli)
+			  interf="cli"
+			  ;;
     esac 
 done
 
 
-if [ $interf = "CLI" ]; then 
+if [[ $interf = "cli" ]]; then 
 
 
 	clear
@@ -65,6 +68,8 @@ if [ $interf = "CLI" ]; then
 	read 'command'
 	echo -e "`lang 5` (y/n) \c"
 	read 'clear'
+	echo -e "`lang 13` (y/n) \c"
+	read 'home'
 
 	if [ ${#name} = '0' ] && [ ${#command} = '0' ]
 		then
@@ -78,7 +83,7 @@ if [ $interf = "CLI" ]; then
 			source $dir/.bash_aliases
 			notify-send "mkalias" "Command $name created !"
 	fi
-elif [ $interf="GUI" ]; then
+elif [[ $interf = "gui" ]]; then
 	
 	if ! which zenity > /dev/null; then
 	      sudo apt-get install zenity >/dev/null
@@ -123,6 +128,7 @@ elif [ $interf="GUI" ]; then
 		  --field="`lang 3`" \
 		  --field="`lang 4`"\
 		  --field="`lang 5`:CHK" "" "" FALSE \
+		  --field="`lang 13`:CHK" "" "" FALSE \
 		  --button="`lang 6`!format-justify-fill:bash -c func_list && echo $func_list"  \
 		  --button="`lang 11`"!gtk-quit:1 \
 		  --button="`lang 10`"!gtk-ok:0)
@@ -133,13 +139,20 @@ elif [ $interf="GUI" ]; then
 	name=$(echo $com | awk 'BEGIN {FS="|" } { print $2 }')
 	command=$(echo $com | awk 'BEGIN {FS="|" } { print $3 }')
 	clear=$(echo $com | awk 'BEGIN {FS="|" } { print $4 }')
+	home=$(echo $com | awk 'BEGIN {FS="|" } { print $5 }')
 
 	if [[ $ret_com -eq 0 ]]; then
 		if [ ${#name} = '0' ] && [ ${#command} = '0' ]
 		then
 			exit 0
 		else
-			if  [ $clear = 'TRUE' ] 
+			if  [ $clear = 'TRUE' ] && [ $home = 'FALSE' ]
+			then
+				echo alias "$name"="'""clear && $command""'" >> $dir/.bash_aliases
+			elif [ $clear = 'FALSE' ] && [ $home = 'TRUE' ]
+			then
+				echo alias "$name"="'""cd $HOME && $command""'" >> $dir/.bash_aliases
+			elif [ $clear = 'TRUE' ] && [ $home = 'TRUE' ]
 			then
 				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
 			else

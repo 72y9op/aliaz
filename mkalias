@@ -1,36 +1,43 @@
 #!/bin/bash
 
 error(){ 
-    echo "ERREUR : parametres invalides !" >&2 
-    echo "utilisez l'option -h pour en savoir plus" >&2 
+    echo "ERROR : invalid parameters !" >&2 
+    echo "Use the -h or --help option to learn more" >&2 
     exit 1 
 } 
 
 usage(){ 
     echo "Usage: mkalias [options]" 
-    echo "	-h :			Show this help" 
-    echo "	-i=<GUI|CLI> :		Open with <GUI|CLI> interface" 
+    echo ""
+    echo "OPTIONS :"
+    echo "	--help (-h)	:		Show this help" 
+    echo "	--gui		:		Open with GUI interface" 
+    echo "	--cli		:		Open with CLI interface" 
 } 
 
 
-traitement(){ 
-	if [[ "$1" = "=CLI" ]]; then
-		sudo bash $HOME/aliaz/aliaz.sh -iCLI
-	elif [ "$1" = "=GUI" ]; then
-		sudo bash $HOME/aliaz/aliaz.sh -iGUI
-	else
-		error
-	fi 
-	
-} 
 
 [[ $# -lt 1 ]] && error 
 
-while getopts ":i:h" option; do 
-    case "$option" in 
-        i) traitement "$OPTARG";; 
-        :) error ;; # il manque une valeur ($option = 'b' ici) 
-        h) usage ;; 
-        *) error ;; 
+optspec=":-:"
+while getopts "$optspec" optchar; do
+	case "${OPTARG}" in
+           help)
+			  usage
+			  exit 1
+			  ;;
+		   gui)
+			  cd $HOME/aliaz/ && ./aliaz.sh --gui
+			  ;;
+		   cli)
+			  cd $HOME/aliaz/ && ./aliaz.sh --cli
+			  ;;
+		   h)
+			  usage
+			  exit 1
+			  ;; 
+		   *)
+		   	  error
+		   	  ;;
     esac 
 done

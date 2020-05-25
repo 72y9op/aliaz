@@ -1,7 +1,7 @@
-en_EN=Create command§Indicate the informations§Command to type in the terminal :§Command executed :§Clear terminal before program ?§List§Existing commands§Executed§Back§Ok§Quit§Command
+en_EN=Create command§Indicate the informations§Command to type in the terminal :§Command executed :§Clear terminal before program ?§List§Existing commands§Executed§Back§Ok§Quit§Command§Go to the home folder ?
 
-fr_FR=Créer une commande§Indiquez les informations§Commande a taper dans le terminal :§Commande éxécuté :§Effacer le terminal avant le programe ?§Liste§Commandes§Exécuté§Retour§Ok§Quitter§Commande
+f_FR=Créer une commande§Indiquez les informations§Commande a taper dans le terminal :§Commande éxécuté :§Effacer le terminal avant le programe ?§Liste§Commandes§Exécuté§Retour§Ok§Quitter§Commande§Aller au dossier home ?
 
-es_ES=Crear commando§Indica la información§Escribe un comando en la terminal§Comando ejecutado :§¿Desea limpiar la pantalla antes del programa?§Listar§Comandos existentes§Ejecutar§Atrás§Vale§Quitar§Comando
+es_ES=Crear commando§Indica la información§Escribe un comando en la terminal§Comando ejecutado :§¿Desea limpiar la pantalla antes del programa?§Listar§Comandos existentes§Ejecutar§Atrás§Vale§Quitar§Comando§Ir a la carpeta de inicio?
 
-de_DE=Befehl erstellen§Informationen bereitstellen§Befehl, der eingegeben wird:§Befehl der ausgeführt wird:§Konsole vor der Ausführung leeren ?§Auflisten§Bestehende Befehle§Ausgeführt§Zurück§Okay§Beenden§Befehl
+de_DE=Befehl erstellen§Informationen bereitstellen§Befehl, der eingegeben wird:§Befehl der ausgeführt wird:§Konsole vor der Ausführung leeren ?§Auflisten§Bestehende Befehle§Ausgeführt§Zurück§Okay§Beenden§Befehl§In den Home-Ordner gehen?
