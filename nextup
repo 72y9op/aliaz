@@ -1,0 +1,39 @@
+Fix pour la 3.0.0 :
+
+- README Update (✓)
+	* Enlever le "{" en bas des commandes pour lancer le programme (✓)
+	* La redirection de xic3fox mènera vers son devrant (✓)
+	* Ajout d'emoji pour les catégories (✓)
+	* Modification plus compréhensible pour les langues (✓)
+	
+- lib_aliazLang Update (✓)
+	* La langue française à un soucis ("f-FR" au lieu de "fr_FR") (✓)
+	
+- mkalias Update (✓)
+	** Ajout du "one-line command" (✓)
+	*/ Erreur "NAME=--" (✓)
+
+	
+- aliaz Update (✓)
+	* Modifier (vers="2.1.0") -> (vers="3.0.0") (✓)
+	** Ajout du "one-line command" (✓)
+	*/ Soucis remarqué (5/07/20) : retourner au home en cli ne marche pas (✓)
+	* Fonction language et lng à mettre en une avec es parameters (language "true" ... -> traduction ; language "false" ... -> nom de la langue) (✓)
+
+- install Update (✓)
+	* mv: impossible de déplacer '/usr/lib/lib_aliazLang' vers '/root/aliaz/backup/lib_aliazLang_b': Aucun fichier ou dossier de ce type (✓)
+	* Créer l'update de bash_aliases dans le fichier bashrc si bash_aliases n'existe pas (✓)
+	* Ajouter de plus de précision lors de l'installation (zenity and yad already installed) (✓)
+	* Ajout de couleurs (✓)
+	* Ajout d'une façon plus léger d'installer les paquets (utilisation de liste au lieu du cas par cas) (✓)
+	* Crée un fichier "1" (✓)
+	* Récupére la localisation du dossier et le donne à mkalias (✓)
+	* Créer la commande de debug --speed (✓)
+
+- other Update (✓)
+	* Ajout du gitignore (✓)
+	* Excuse pour l'ancienne mise à jour foireuse (✓)
+	* Commenter son code pour l'open source (✓) (PROCHAINE MAJ (3.0.1) CAR FLEMME)
+	* Réduction des bugs
+	* Amélioration du code
+

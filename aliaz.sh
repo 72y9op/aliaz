@@ -1,64 +1,106 @@
 #!/bin/bash
 
-vers="2.1.0"
+vers="3.0.0" 
 dir="$HOME"
 dir_lang="/usr/lib"
 temp="/tmp/aliases.mkalias"
+defLang="en_EN"
+r_lang=$(echo "$LANG" | awk '{{gsub(".UTF-8","")} print}')
 
-if [ -f $temp ]
-then
-	rm $temp
-fi
+if [ -f $temp ]; then rm $temp; fi
 
 touch $temp
 sudo chmod +x $temp
 
+createCommand() {
+
+	if [ -z ${#name} ] && [ -z ${#command} ]
+	then
+		exit 0
+	else
+		if  [ "$clear" = 'TRUE' ] && [ "$home" = 'FALSE' ];	then
+			echo alias "$name"="'""clear && $command""'" >> $dir/.bash_aliases
+			
+		elif [ "$clear" = 'FALSE' ] && [ "$home"  = 'TRUE' ]; then
+			echo alias "$name"="'""cd $HOME && $command""'" >> $dir/.bash_aliases
+			
+		elif [ "$clear" = 'TRUE' ] && [ "$home"  = 'TRUE' ]
+		then
+			echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
+		else
+			echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
+		fi	
+		source $dir/.bash_aliases
+		notify-send "mkalias" "Command $name created !"
+	fi
+
+}
 
 function lang () {
 
-	defLang="en_EN"
-	r_lang=$(echo "$LANG" | awk '{{gsub(".UTF-8","")} print}')
-	varLang=$(grep $r_lang /usr/lib/lib_aliazLang | awk -F '=' '{print $2}' | awk -F '§' '{print $'$1'}' )
+	varLang=$(grep $r_lang /usr/lib/lib_aliazLang | awk -F '=' '{print $2}' )
 
-	if [ -z "$varLang" ]; then
-		varLang=$(grep $defLang /usr/lib/lib_aliazLang | awk -F '=' '{print $2}' | awk -F '§' '{print $'$1'}' )
-		echo "$varLang"
-	else	
-		echo "$varLang"
+	if [ "$1" == "true" ]; then
+		if [ -z "$varLang" ]; then
+			actLang=$defLang
+		else	
+			actLang=$r_lang
+		fi
+	else
+	
+		varLang=$(echo $varLang | awk -F '§' '{print $'$1'}' )
+
+		if [ -z "$varLang" ]; then
+			echo "$varLang"
+		else	
+			echo "$varLang"
+		fi
 	fi
 }
 
-function lng() {
-	defLang="en_EN"
-	r_lang=$(echo "$LANG" | awk '{{gsub(".UTF-8","")} print}')
-	varLang=$(grep $r_lang $dir_lang/lib_aliazLang | awk -F '=' '{print $2}' )
-
-	if [ -z "$varLang" ]; then
-		actLang=$defLang
-	else	
-		actLang=$r_lang
-	fi
-}
-export -f lang
-
-optspec=":-:"
-while getopts "$optspec" optchar; do
-	case "${OPTARG}" in
-		   gui)
-			  interf="gui"
-			  ;;
-		   cli)
-			  interf="cli"
-			  ;;
-    esac 
+for i in "$@"
+do
+case $i in
+    --gui ) 
+    interf="gui"
+    shift
+    ;;
+	--cli ) 
+	interf="cli"
+	shift
+	;;
+	--name=*)
+	interf="other"
+	name="${i#*=}"
+	shift
+	shift
+	;;
+	--command=*)
+	interf="other"
+	command="${i#*=}"
+	shift
+	shift
+	;;
+    --clear) 
+    interf="other"
+    clear='TRUE'
+    shift
+    shift
+    ;;
+    --home) 
+    interf="other"
+    home='TRUE'
+    shift
+    shift
+    ;;
+esac
 done
 
 
 if [[ $interf = "cli" ]]; then 
 
-
 	clear
-	lng
+	lang "true"
 	echo -e "+--------------------------------------------------------+"
 	echo -e "|   Aliaz "$vers" CLI vers. ### Lang "$actLang" ### by 72y9op   |"
 	echo -e "+--------------------------------------------------------+ \n"
@@ -142,24 +184,9 @@ elif [[ $interf = "gui" ]]; then
 	home=$(echo $com | awk 'BEGIN {FS="|" } { print $5 }')
 
 	if [[ $ret_com -eq 0 ]]; then
-		if [ ${#name} = '0' ] && [ ${#command} = '0' ]
-		then
-			exit 0
-		else
-			if  [ $clear = 'TRUE' ] && [ $home = 'FALSE' ]
-			then
-				echo alias "$name"="'""clear && $command""'" >> $dir/.bash_aliases
-			elif [ $clear = 'FALSE' ] && [ $home = 'TRUE' ]
-			then
-				echo alias "$name"="'""cd $HOME && $command""'" >> $dir/.bash_aliases
-			elif [ $clear = 'TRUE' ] && [ $home = 'TRUE' ]
-			then
-				echo alias "$name"="'""rest && $command""'" >> $dir/.bash_aliases
-			else
-				echo alias "$name"="'""$command""'" >> $dir/.bash_aliases
-			fi	
-			source $dir/.bash_aliases
-			notify-send "mkalias" "Command $name created !"
-		fi
+		createCommand
 	fi
+
+elif [[ $interf = "other" ]]; then 
+	createCommand	
 fi
