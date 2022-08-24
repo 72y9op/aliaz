@@ -37,8 +37,8 @@ thank you for your participation !
 
 
 ## ℹ️ Informations :
-The program will install:
-Zenity and Yad (which is an addition of zenity functionality).
+The program will install: \
+**Zenity** and **Yad** (which is an addition of zenity functionality).
 
 ## 🧾 Installation :
 ```
